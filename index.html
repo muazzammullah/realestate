@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>Vue Estate</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="css/heroic-features.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Vue Estate!</a>
+<!--       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button> -->
+<!--       <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div> -->
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div id="app" class="container">
+
+ <br>
+
+    <!-- Page Features -->
+    <div class="panel panel-primary">
+    <div class="panel-heading">Filter</div>
+    <div class="form-group col-lg-2"> <p>Sale/Rent/All</p>
+      <select class="form-control" v-model="selected">
+        <option value="">All</option>
+        <option >Sale</option>
+        <option >Rent</option>
+    </select></div>
+           
+    <div class="form-group col-lg-2">  <p>Minimum price</p>
+    <input class="form-control" type="number" value=0  v-model="min"/>
+    </div>
+  
+
+  <div class="form-group col-lg-2">  <p>Maximum price</p>
+    <input class="form-control" type="number" value=0  v-model="max"/>
+  </div>
+   
+</div>
+
+
+<!--     <p >Selected Department: {{selected}}</p> -->
+
+
+        <h4>Properties</h4>
+    <div class="row text-center">
+ 
+      <div v-for="product in products" v-if="(product.saleorrent.toString().includes(selected) || selected=='All') && (product.price>min && product.price<max)"  class="col-lg-3 col-md-6 mb-4" >
+        <div class="card h-100">
+          <img class="card-img-top" v-bind:src="product.picture" alt="">
+          <div class="card-body">
+            <h4 class="card-title">{{product.name}}</h4>
+            <p class="card-text">{{product.description}}</p>
+            <p>For<i style="background-color:#95a5a6;padding: 3px;border-radius: 5px;">{{product.saleorrent}}</i></p>
+          </div>
+          <div class="card-footer">
+            <p>Price <b>{{product.price}}</b></p>
+            <p>Contact John</p>
+            <p>Tel:0218880889</p>
+            <p>E mail:john@remax.com</p>
+          </div>
+        </div>
+      </div>
+      
+
+
+
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+ 
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+<script type="text/javascript">
+  var app=new Vue({
+    el:'#app',
+    data:{
+      products:[],
+      selected:'',
+      min:0,
+      max:10000000,
+    },
+    created(){
+      fetch('https://script.google.com/macros/s/AKfycbyk7lEvp_IW0PBMLZ0iHE3Gkw05cYW65Bs-kcuyekkMOcjNFGM/exec?sheet=hotels')
+      .then(response=>response.json())
+      .then(json=>{
+        this.products=(json.data)
+      })
+    }
+
+  })
+</script>
+<style type="text/css">
+  .navbar{
+    background-color: #2ecc71 !important;
+  }
+  .panel{
+    border:1px solid black;
+  }
+  .panel-heading{
+    background-color:#2ecc71 ;
+    padding:4px;
+     
+  }
+</style>
+</body>
+
+</html>
